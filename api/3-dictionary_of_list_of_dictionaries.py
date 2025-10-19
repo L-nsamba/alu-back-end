@@ -8,24 +8,22 @@ import requests
 
 
 if __name__ == "__main__":
-    # API base URL
     base_url = "https://jsonplaceholder.typicode.com"
 
     # Get all users
     users = requests.get(f"{base_url}/users").json()
 
-    # Dictionary to store all user tasks
+    # Dictionary to store all users' tasks
     all_tasks = {}
 
     for user in users:
         user_id = user.get("id")
         username = user.get("username")
 
-        # Get this user's todos
-        todos = requests.get(f"{base_url}/todos",
-	params={"userId": user_id}).json()
+        # Get todos for this user
+        todos_url = f"{base_url}/todos"
+        todos = requests.get(todos_url, params={"userId": user_id}).json()
 
-        # Build task list for this user
         all_tasks[user_id] = [
             {
                 "username": username,
@@ -35,6 +33,6 @@ if __name__ == "__main__":
             for task in todos
         ]
 
-    # Export to JSON file
+    # Write data to file
     with open("todo_all_employees.json", "w") as json_file:
         json.dump(all_tasks, json_file)
