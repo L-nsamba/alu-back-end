@@ -22,7 +22,8 @@ if __name__ == "__main__":
         username = user.get("username")
 
         # Get this user's todos
-        todos = requests.get(f"{base_url}/todos", params={"userId": user_id}).json()
+        todos = requests.get(f"{base_url}/todos",
+	params={"userId": user_id}).json()
 
         # Build task list for this user
         all_tasks[user_id] = [
